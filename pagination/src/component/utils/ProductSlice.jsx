@@ -16,11 +16,8 @@ const ProductSlice = createSlice({
     name:"products",
     initialState,
     reducers:{
-        resetProducts:{
-            products:[],
-            loading:false,
-            hasMore:true,
-            page:1,
+        incrimentPage:(state, action)=>{
+            state.page +=1;
         }
     },
     extraReducer:(builder)=>{
@@ -30,17 +27,17 @@ const ProductSlice = createSlice({
             })
             .addCase(fetchProducts.fulfilled, (state, action)=>{
                 state.loading = false;
-                state.products = [...state.products, ...action.payload.products];
-                state.hasMore = action.payload.products.length>0;
-                state.page +=1;
+                state.products = [...state.products, ...action.payload];
+                state.hasMore = action.payload.length>0;
+                
             })
 
             .addCase(fetchProducts.rejected, (state, action)=>{
                 state.loading = false;
-                state.error = action.error.message
+              
             })
     }
 })
 
-export const {resetProducts} = ProductSlice.actions;
+export const {incrimentPage} = ProductSlice.actions;
 export default ProductSlice.reducer;
